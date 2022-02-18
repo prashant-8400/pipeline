@@ -14,7 +14,7 @@ def get_security_group_id(group_name, region_name):
     return response['SecurityGroups'][0]['GroupId']
 
 def create_cluster(region_name, cluster_name='Prashant_Cluster' + str(datetime.now()), release_label='emr-6.2.1',master_instance_type='m5.xlarge', num_core_nodes=2, core_node_instance_type='m5.xlarge'):
-    emr_master_security_group_id = get_security_group_id('airflowsecuritygroup', region_name=region_name)
+    emr_master_security_group_id = get_security_group_id('maheshEMR', region_name=region_name)
     emr_slave_security_group_id = emr_master_security_group_id
     cluster_response = emr.run_job_flow(
         Name=cluster_name,
@@ -71,7 +71,7 @@ def get_cluster_dns(cluster_id):
 def wait_for_cluster_creation(cluster_id):
     emr.get_waiter('cluster_running').wait(ClusterId=cluster_id)
 
-#Livy Submiyt code123
+#Livy
 def livy_task(master_dns, spark_config_path, final_code_path, datasetName,dataset_path):
     # 8998 is the port on which the Livy server runs
     host = 'http://' + master_dns + ':8998'
@@ -88,7 +88,7 @@ def track_statement_progress(master_dns, response_headers):
     statement_status = ''
     host = 'http://' + master_dns + ':8998'
     session_url = host + response_headers['location'].split('/statements', 1)[0]
-    # Poll the status of the submitted spark code 
+    # Poll the status of the submitted scala code
     while statement_status != 'success':
         # If a statement takes longer than a few milliseconds to execute, Livy returns early and provides a statement URL that can be polled until it is complete:
         statement_url = host + response_headers['location']
@@ -109,4 +109,5 @@ def track_statement_progress(master_dns, response_headers):
     final_statement_status = statement_response.json()['state']
     print(final_statement_status)
     return final_statement_status
+
 
