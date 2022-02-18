@@ -71,7 +71,7 @@ def get_cluster_dns(cluster_id):
 def wait_for_cluster_creation(cluster_id):
     emr.get_waiter('cluster_running').wait(ClusterId=cluster_id)
 
-#Livy submit111
+#Livy submit1111
 def livy_task(master_dns, spark_config_path, final_code_path, datasetName,dataset_path):
     # 8998 is the port on which the Livy server runs
     host = 'http://' + master_dns + ':8998'
