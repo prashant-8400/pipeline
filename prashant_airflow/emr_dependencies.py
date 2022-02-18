@@ -88,7 +88,7 @@ def track_statement_progress(master_dns, response_headers):
     statement_status = ''
     host = 'http://' + master_dns + ':8998'
     session_url = host + response_headers['location'].split('/statements', 1)[0]
-    # Poll the status of the submitted scala code
+    # Poll the status of the submitted spark code 
     while statement_status != 'success':
         # If a statement takes longer than a few milliseconds to execute, Livy returns early and provides a statement URL that can be polled until it is complete:
         statement_url = host + response_headers['location']
