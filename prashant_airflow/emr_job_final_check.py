@@ -15,7 +15,7 @@ spark = SparkSession.builder.appName("Demo").getOrCreate()
 
 # For Delta
 
-spark.sparkContext.addPyFile("s3://landingzonesaurav/config/delta-core_2.12-0.8.0.jar")
+spark.sparkContext.addPyFile("s3://prashantlandingzone11/dependency_file/delta-core_2.12-0.8.0.jar")
 
 from delta import *
 
@@ -67,9 +67,6 @@ class Configuration:
     
     # Sets spark configs from location fetched from livy call
     def setSparkConfig(self,location):
-        print(location)
-        print(location)
-        print(location)
         location_list = location.replace(":","").split("/")
         
         obj = self.s3.Object(location_list[2], "/".join(location_list[3:]))
@@ -87,15 +84,10 @@ class Configuration:
     # fetchConfig is used to get app_config file from s3 bucket   
     def read_config(self):
         path = spark.sparkContext._conf.get('spark.path')
-        print(path)
-        print(path)
-        print(path)
         spark_path_list = path.replace(":","").split("/")
         obj = self.s3.Object(spark_path_list[2], "/".join(spark_path_list[3:]))
         body = obj.get()['Body'].read()
         jsonData = json.loads(body)
-        print(jsonData)
-        print(jsonData)
         return jsonData
 
 class Transformation:
@@ -216,16 +208,6 @@ if __name__=='__main__':
     datasetName = sys.argv[2]
     
     dataset_path = sys.argv[3]
-
-    print(spark_config_loc)
-    print(datasetName)
-    print(dataset_path)
-    print(spark_config_loc)
-    print(datasetName)
-    print(dataset_path)
-    print(spark_config_loc)
-    print(datasetName)
-    print(dataset_path)
         
     # Creating object
     
